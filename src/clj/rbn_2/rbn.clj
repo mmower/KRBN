@@ -15,29 +15,37 @@
   (let [pool (shuffle (filter #(not= exc %1) (range size)))]
     (take n pool)))
 
-(defn make-cell-func [size]
-  (fn [n]
-    {:idx n
-     :state (random-state)
-     :connections (potential-connections 2 size n)
-     :oper (random-oper)}))
-
 (defn make-network [dim]
-  (let [size (* dim dim)
-        make-cell (make-cell-func size)]
-    (map make-cell (range size))))
+  (let [size (* dim dim)]
+    {
+     :generation 1
+     :cells (map (fn [n] {
+                          :idx n
+                          :state (random-state)
+                          :connections (potential-connections 2 size n)
+                          :oper (random-oper)
+                          }) (range size))
+    }
+    ))
 
-(defn evolve-cell
-  [cell network]
-  (let [connections (map #(nth network %1) (:connections cell))
+(defn next-cell-state
+  [cell cells]
+  (let [connections (map #(nth cells %1) (:connections cell))
         operands (map :state connections)
         new-state (apply (:oper cell) operands)]
         (assoc cell :state new-state)))
 
 (defn evolve-network
   [network]
-  (map #(evolve-cell %1 network) network))
+  (let [{:keys [generation cells]} network]
+    {
+     :generation (inc generation)
+     :cells (map #(next-cell-state %1 cells) cells)
+    }))
+
 
 (def first-gen-net (make-network 8))
 
 (def second-gen-net (evolve-network first-gen-net))
+
+(println second-gen-net)
