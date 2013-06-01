@@ -1,0 +1,32 @@
+# KRBN
+
+This is both my first attempt to write a real Clojure program and also an attempt
+to recreate Stuart Kauffman's **Random Boolean Network** experiments as described in
+Mitchell Waldrop's book *Complexity*.
+
+A Random Boolean Network (RBN) is a network in which each node is connected to two
+other nodes. Each node also has a boolean operator (OR, AND, or XOR). Each successive
+generation of the network is created by setting the state of each node to the
+boolean outcome of its operator applied to the state of the two connected nodes in
+the preceeding generation.
+
+I've implemented the RBN program using Clojure and ClojureScript. I'm grateful for
+any constructive feedback either about the application itself (especially if i have
+misunderstood any part of the RBN process) or my Clojure code. I'm not especially
+proud of the code although I am that I was able to come up with a working solution.
+
+## Credits:
+
+* Bootstrap: http://twitter.github.io/bootstrap/
+* raphael.js: http://raphaeljs.com
+* jQuery: http://jquery.com/
+* underscore.js: http://underscorejs.org/
+* ClojureScript: https://github.com/clojure/clojurescript
+* Clojure: http://clojure.org/
+* Leiningen: http://leiningen.org/
+* LightTable: http://www.lighttable.com/
+
+## License
+
+The code is copyright 2013 Matt Mower and released under the MIT license, see LICENSE
+for more details.
