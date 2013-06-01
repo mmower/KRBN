@@ -9,19 +9,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
   <body>
-  <h1>Drawing Random Boolean Networks with ClojureScript</h1>
   <div class="container">
+    <h1>Random Boolean Networks</h1>
     <div id="ui"></div>
+    <button id="transport">Run/Stop</button>
   </div>
   <script type="text/javascript">
+    var running = true;
     var paper = Raphael( "ui", 600, 600 );
-    var network = rbn.make_network( 8 );
+    var network = rbn.make_network( 10 );
     var repr = graph_drawing.make_network_representation(paper,network);
     graph_drawing.update_network_representation(network,repr);
     window.setInterval( function() {
-      network = rbn.evolve_network( network );
-      graph_drawing.update_network_representation( network, repr );
-    }, 2000 );
+      if( running ) {
+        network = rbn.evolve_network( network );
+        graph_drawing.update_network_representation( network, repr );
+      }
+    }, 150 );
+
+    $("#transport").on("click",function(){
+      running = !running;
+    });
     </script>
 </body>
 </html>

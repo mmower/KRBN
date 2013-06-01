@@ -12738,26 +12738,28 @@ var graph_drawing = {cell_x:function(a, b) {
   return cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'x", "\ufdd0'y"], {"\ufdd0'w":d, "\ufdd0'h":a, "\ufdd0'x":e, "\ufdd0'y":c})
 }, paper_rect:function(a, b, c) {
   var b = graph_drawing.cell_rect.call(null, a, b, (new cljs.core.Keyword("\ufdd0'index")).call(null, c)), d = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, b = cljs.core._lookup.call(null, d, "\ufdd0'h", null), c = cljs.core._lookup.call(null, d, "\ufdd0'w", null), e = cljs.core._lookup.call(null, d, "\ufdd0'y", null), d = cljs.core._lookup.call(null, d, "\ufdd0'x", null), a = a.rect(d, e, c, b, 1);
-  a.attr("stroke", "#000000");
+  a.attr("stroke", "#888888");
   return a
 }, make_network_representation:function(a, b) {
   return cljs.core.ObjMap.fromObject(["\ufdd0'paper", "\ufdd0'network", "\ufdd0'rects"], {"\ufdd0'paper":a, "\ufdd0'network":b, "\ufdd0'rects":cljs.core.doall.call(null, cljs.core.map.call(null, function(c) {
     return graph_drawing.paper_rect.call(null, a, b, c)
   }, (new cljs.core.Keyword("\ufdd0'cells")).call(null, b)))})
-}, update_network_representation:function(a, b) {
+}};
+graph_drawing.oper_color = cljs.core.PersistentArrayMap.fromArrays([rbn.and_oper, rbn.or_oper, rbn.xor_oper], ["#FF0000", "#00FF00", "#0000FF"]);
+graph_drawing.update_network_representation = function(a, b) {
   var c = (new cljs.core.Keyword("\ufdd0'cells")).call(null, a);
   return cljs.core.doall.call(null, function e(a) {
     return new cljs.core.LazySeq(null, !1, function() {
       for(;;) {
         if(cljs.core.seq.call(null, a)) {
-          var c = cljs.core.first.call(null, a), c = cljs.core.seq_QMARK_.call(null, c) ? cljs.core.apply.call(null, cljs.core.hash_map, c) : c, h = cljs.core._lookup.call(null, c, "\ufdd0'state", null), i = cljs.core._lookup.call(null, c, "\ufdd0'index", null);
+          var c = cljs.core.first.call(null, a), c = cljs.core.seq_QMARK_.call(null, c) ? cljs.core.apply.call(null, cljs.core.hash_map, c) : c, h = cljs.core._lookup.call(null, c, "\ufdd0'oper", null), i = cljs.core._lookup.call(null, c, "\ufdd0'state", null), j = cljs.core._lookup.call(null, c, "\ufdd0'index", null);
           return cljs.core.cons.call(null, function() {
-            var a = cljs.core.nth.call(null, (new cljs.core.Keyword("\ufdd0'rects")).call(null, b), i);
-            return cljs.core.truth_(h) ? a.attr("fill", "#555555") : a.attr("fill", "#FFFFFF")
+            var a = cljs.core.nth.call(null, (new cljs.core.Keyword("\ufdd0'rects")).call(null, b), j);
+            return cljs.core.truth_(i) ? a.attr("fill", cljs.core._lookup.call(null, graph_drawing.oper_color, h, "#555555")) : a.attr("fill", "#FFFFFF")
           }(), e.call(null, cljs.core.rest.call(null, a)))
         }
         return null
       }
     }, null)
   }.call(null, c))
-}};
+};
