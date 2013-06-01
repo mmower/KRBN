@@ -4,6 +4,8 @@
   <script type="text/javascript" src="../resources/public/js/jquery-2.0.2.js"></script>
   <script type="text/javascript" src="../resources/public/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../resources/public/js/raphael.js"></script>
+  <script type="text/javascript" src="../resources/public/js/underscore.js"></script>
+  <script type="text/javascript" src="../resources/public/js/urlquery.js"></script>
   <script type="text/javascript" src="../resources/public/js/cljs.js"></script>
   <link rel="stylesheet" type="text/css" href="../resources/public/css/bootstrap.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,21 +17,30 @@
     <button id="transport">Run/Stop</button>
   </div>
   <script type="text/javascript">
-    var running = true;
-    var paper = Raphael( "ui", 600, 600 );
-    var network = rbn.make_network( 10 );
-    var repr = graph_drawing.make_network_representation(paper,network);
-    graph_drawing.update_network_representation(network,repr);
-    window.setInterval( function() {
-      if( running ) {
-        network = rbn.evolve_network( network );
-        graph_drawing.update_network_representation( network, repr );
-      }
-    }, 150 );
+    $(document).ready(function(){
+      var params = urlquery.pageParamMap();
 
-    $("#transport").on("click",function(){
-      running = !running;
-    });
+      var dim = parseInt( params.dim || "8", 10 );
+      var time = parseInt( params.time, 10 );
+
+      var running = true;
+      var paper = Raphael( "ui", 640, 640 );
+      var network = rbn.make_network( dim );
+      var repr = graph_drawing.make_network_representation(paper,network);
+      graph_drawing.update_network_representation(network,repr);
+      graph_drawing.draw_nodes(paper,network);
+      graph_drawing.draw_connections(paper,network);
+      window.setInterval( function() {
+        if( running ) {
+          network = rbn.evolve_network( network );
+          graph_drawing.update_network_representation( network, repr );
+        }
+      }, time );
+
+      $("#transport").on("click",function(){
+        running = !running;
+      });
+      });
     </script>
 </body>
 </html>
