@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/javascript" src="../resources/public/js/jquery-2.0.2.js"></script>
+  <script type="text/javascript" src="../resources/public/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../resources/public/js/raphael.js"></script>
+  <script type="text/javascript" src="../resources/public/js/cljs.js"></script>
+  <link rel="stylesheet" type="text/css" href="../resources/public/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+  <body>
+  <h1>Drawing Random Boolean Networks with ClojureScript</h1>
+  <div class="container">
+    <div id="ui"></div>
+  </div>
+  <script type="text/javascript">
+    var paper = Raphael( "ui", 600, 600 );
+    var network = rbn.make_network( 8 );
+    var repr = graph_drawing.make_network_representation(paper,network);
+    graph_drawing.update_network_representation(network,repr);
+    window.setInterval( function() {
+      network = rbn.evolve_network( network );
+      graph_drawing.update_network_representation( network, repr );
+    }, 2000 );
+    </script>
+</body>
+</html>

@@ -2730,23 +2730,23 @@ cljs.core._hash["boolean"] = function(a) {
 cljs.core.IWithMeta["function"] = !0;
 cljs.core._with_meta["function"] = function(a, b) {
   return cljs.core.with_meta.call(null, function() {
-    if(void 0 === cljs.core.t2871) {
-      cljs.core.t2871 = {};
-      cljs.core.t2871 = function(a, b, c) {
+    if(void 0 === cljs.core.t2881) {
+      cljs.core.t2881 = {};
+      cljs.core.t2881 = function(a, b, c) {
         this.meta = a;
         this.f = b;
-        this.meta2872 = c;
+        this.meta2882 = c;
         this.cljs$lang$protocol_mask$partition1$ = 0;
         this.cljs$lang$protocol_mask$partition0$ = 393217
       };
-      cljs.core.t2871.cljs$lang$type = !0;
-      cljs.core.t2871.cljs$lang$ctorPrSeq = function() {
-        return cljs.core.list.call(null, "cljs.core/t2871")
+      cljs.core.t2881.cljs$lang$type = !0;
+      cljs.core.t2881.cljs$lang$ctorPrSeq = function() {
+        return cljs.core.list.call(null, "cljs.core/t2881")
       };
-      cljs.core.t2871.cljs$lang$ctorPrWriter = function(a, b) {
-        return cljs.core._write.call(null, b, "cljs.core/t2871")
+      cljs.core.t2881.cljs$lang$ctorPrWriter = function(a, b) {
+        return cljs.core._write.call(null, b, "cljs.core/t2881")
       };
-      var c = cljs.core.t2871.prototype, d = function(a, b) {
+      var c = cljs.core.t2881.prototype, d = function(a, b) {
         return cljs.core.apply.call(null, a.f, b)
       }, e = function(a, b) {
         var a = this, c = null;
@@ -2760,19 +2760,19 @@ cljs.core._with_meta["function"] = function(a, b) {
       };
       e.cljs$lang$arity$variadic = d;
       c.call = e;
-      cljs.core.t2871.prototype.apply = function(a, b) {
+      cljs.core.t2881.prototype.apply = function(a, b) {
         a = this;
         return a.call.apply(a, [a].concat(b.slice()))
       };
-      cljs.core.t2871.prototype.cljs$core$Fn$ = !0;
-      cljs.core.t2871.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
-        return this.meta2872
+      cljs.core.t2881.prototype.cljs$core$Fn$ = !0;
+      cljs.core.t2881.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
+        return this.meta2882
       };
-      cljs.core.t2871.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
-        return new cljs.core.t2871(this.meta, this.f, b)
+      cljs.core.t2881.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
+        return new cljs.core.t2881(this.meta, this.f, b)
       }
     }
-    return new cljs.core.t2871(b, a, null)
+    return new cljs.core.t2881(b, a, null)
   }(), b)
 };
 cljs.core.IMeta["function"] = !0;
@@ -12694,16 +12694,70 @@ cljs.core.UUID.prototype.cljs$core$IEquiv$_equiv$arity$2 = function(a, b) {
 cljs.core.UUID.prototype.toString = function() {
   return cljs.core.pr_str.call(null, this)
 };
-var hello_clojurescript = {make_network:function(a) {
-  return cljs.core.map.call(null, function() {
-    return cljs.core.ObjMap.fromObject(["\ufdd0'state", "\ufdd0'operator"], {"\ufdd0'state":!0, "\ufdd0'operator":hello_clojurescript.xor}).call(null)
-  }, cljs.core.range.call(null, a * a))
+var rbn = {or_oper:function(a, b) {
+  return cljs.core.truth_(a) ? a : b
+}, and_oper:function(a, b) {
+  return cljs.core.truth_(a) ? b : a
+}, xor_oper:function(a, b) {
+  var c;
+  c = cljs.core.truth_(a) ? cljs.core.not.call(null, b) : a;
+  return cljs.core.truth_(c) ? c : (c = cljs.core.not.call(null, a)) ? b : c
+}, random_oper:function() {
+  return cljs.core.rand_nth.call(null, cljs.core.PersistentVector.fromArray([rbn.or_oper, rbn.and_oper, rbn.xor_oper], !0))
+}, random_state:function() {
+  return cljs.core.rand_nth.call(null, cljs.core.PersistentVector.fromArray([!0, !1], !0))
+}, potential_connections:function(a, b, c) {
+  b = cljs.core.shuffle.call(null, cljs.core.filter.call(null, function(a) {
+    return cljs.core.not_EQ_.call(null, c, a)
+  }, cljs.core.range.call(null, b)));
+  return cljs.core.take.call(null, a, b)
+}, make_network:function(a) {
+  var b = a * a;
+  return cljs.core.ObjMap.fromObject(["\ufdd0'generation", "\ufdd0'dim", "\ufdd0'cells"], {"\ufdd0'generation":1, "\ufdd0'dim":a, "\ufdd0'cells":cljs.core.map.call(null, function(a) {
+    return cljs.core.ObjMap.fromObject(["\ufdd0'index", "\ufdd0'state", "\ufdd0'connections", "\ufdd0'oper"], {"\ufdd0'index":a, "\ufdd0'state":rbn.random_state.call(null), "\ufdd0'connections":rbn.potential_connections.call(null, 2, b, a), "\ufdd0'oper":rbn.random_oper.call(null)})
+  }, cljs.core.range.call(null, b))})
+}, next_cell_state:function(a, b) {
+  var c = cljs.core.map.call(null, function(a) {
+    return cljs.core.nth.call(null, b, a)
+  }, (new cljs.core.Keyword("\ufdd0'connections")).call(null, a)), c = cljs.core.map.call(null, "\ufdd0'state", c), c = cljs.core.apply.call(null, (new cljs.core.Keyword("\ufdd0'oper")).call(null, a), c);
+  return cljs.core.assoc.call(null, a, "\ufdd0'state", c)
+}, evolve_network:function(a) {
+  var a = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, b = cljs.core._lookup.call(null, a, "\ufdd0'cells", null), a = cljs.core._lookup.call(null, a, "\ufdd0'generation", null);
+  return cljs.core.ObjMap.fromObject(["\ufdd0'generation", "\ufdd0'cells"], {"\ufdd0'generation":a + 1, "\ufdd0'cells":cljs.core.map.call(null, function(a) {
+    return rbn.next_cell_state.call(null, a, b)
+  }, b)})
 }};
-hello_clojurescript.sample_network = hello_clojurescript.make_network.call(null, 16);
-hello_clojurescript.handle_click = function() {
-  return alert(clojure.string.join.call(null, hello_clojurescript.sample_network))
-};
-hello_clojurescript.element_with_id = function(a) {
-  return document.getElementById(a)
-};
-hello_clojurescript.element_with_id.call(null, "clickable").addEventListener("click", hello_clojurescript.handle_click);
+var graph_drawing = {cell_x:function(a, b) {
+  return cljs.core.mod.call(null, b, a)
+}, cell_y:function(a, b) {
+  return cljs.core.int$.call(null, b / a)
+}, cell_rect:function(a, b, c) {
+  var d = a.width, a = a.height, b = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b;
+  cljs.core._lookup.call(null, b, "\ufdd0'size", null);
+  var b = cljs.core._lookup.call(null, b, "\ufdd0'dim", null), d = d / b, a = a / b, e = d * graph_drawing.cell_x.call(null, b, c), c = a * graph_drawing.cell_y.call(null, b, c);
+  return cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'x", "\ufdd0'y"], {"\ufdd0'w":d, "\ufdd0'h":a, "\ufdd0'x":e, "\ufdd0'y":c})
+}, paper_rect:function(a, b, c) {
+  var b = graph_drawing.cell_rect.call(null, a, b, (new cljs.core.Keyword("\ufdd0'index")).call(null, c)), d = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, b = cljs.core._lookup.call(null, d, "\ufdd0'h", null), c = cljs.core._lookup.call(null, d, "\ufdd0'w", null), e = cljs.core._lookup.call(null, d, "\ufdd0'y", null), d = cljs.core._lookup.call(null, d, "\ufdd0'x", null), a = a.rect(d, e, c, b, 1);
+  a.attr("stroke", "#000000");
+  return a
+}, make_network_representation:function(a, b) {
+  return cljs.core.ObjMap.fromObject(["\ufdd0'paper", "\ufdd0'network", "\ufdd0'rects"], {"\ufdd0'paper":a, "\ufdd0'network":b, "\ufdd0'rects":cljs.core.doall.call(null, cljs.core.map.call(null, function(c) {
+    return graph_drawing.paper_rect.call(null, a, b, c)
+  }, (new cljs.core.Keyword("\ufdd0'cells")).call(null, b)))})
+}, update_network_representation:function(a, b) {
+  var c = (new cljs.core.Keyword("\ufdd0'cells")).call(null, a);
+  return cljs.core.doall.call(null, function e(a) {
+    return new cljs.core.LazySeq(null, !1, function() {
+      for(;;) {
+        if(cljs.core.seq.call(null, a)) {
+          var c = cljs.core.first.call(null, a), c = cljs.core.seq_QMARK_.call(null, c) ? cljs.core.apply.call(null, cljs.core.hash_map, c) : c, h = cljs.core._lookup.call(null, c, "\ufdd0'state", null), i = cljs.core._lookup.call(null, c, "\ufdd0'index", null);
+          return cljs.core.cons.call(null, function() {
+            var a = cljs.core.nth.call(null, (new cljs.core.Keyword("\ufdd0'rects")).call(null, b), i);
+            return cljs.core.truth_(h) ? a.attr("fill", "#555555") : a.attr("fill", "#FFFFFF")
+          }(), e.call(null, cljs.core.rest.call(null, a)))
+        }
+        return null
+      }
+    }, null)
+  }.call(null, c))
+}};
