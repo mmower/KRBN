@@ -96,8 +96,8 @@
 
 (def oper-color-mono {
                  rbn/and-oper "#666666"
-                 rbn/or-oper "#888888"
-                 rbn/xor-oper "#AAAAAA"})
+                 rbn/or-oper "#777777"
+                 rbn/xor-oper "#888888"})
 
 (defn update-network-representation
   [network representation]

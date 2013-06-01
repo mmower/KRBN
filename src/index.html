@@ -9,11 +9,17 @@
   <script type="text/javascript" src="../resources/public/js/cljs.js"></script>
   <link rel="stylesheet" type="text/css" href="../resources/public/css/bootstrap.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    #generation {
+      font-weight: bold;
+    }
+  </style>
 </head>
   <body>
   <div class="container">
-    <h1>Random Boolean Networks</h1>
+    <h1>Kauffman's Random Boolean Network</h1>
     <div id="ui"></div>
+    <p>Generation: <span id="generation"></span></p>
     <button id="transport">Run/Stop</button>
   </div>
   <script type="text/javascript">
@@ -21,11 +27,13 @@
       var params = urlquery.pageParamMap();
 
       var dim = parseInt( params.dim || "8", 10 );
-      var time = parseInt( params.time, 10 );
+      var time = parseInt( params.time || "250", 10 );
+      var p = parseFloat( params.p || "0.273" );
+      var running = parseInt( params.run || "1", 10 ) == "1";
+      var rule = parseInt( params.rule || "0", 10 );
 
-      var running = true;
       var paper = Raphael( "ui", 640, 640 );
-      var network = rbn.make_network( dim );
+      var network = rbn.make_network( dim, p, rule );
       var repr = graph_drawing.make_network_representation(paper,network);
       graph_drawing.update_network_representation(network,repr);
       graph_drawing.draw_nodes(paper,network);
@@ -34,6 +42,7 @@
         if( running ) {
           network = rbn.evolve_network( network );
           graph_drawing.update_network_representation( network, repr );
+          $("#generation").text( rbn.network_generation(network));
         }
       }, time );
 

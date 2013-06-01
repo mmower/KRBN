@@ -12702,31 +12702,56 @@ var rbn = {or_oper:function(a, b) {
   var c;
   c = cljs.core.truth_(a) ? cljs.core.not.call(null, b) : a;
   return cljs.core.truth_(c) ? c : (c = cljs.core.not.call(null, a)) ? b : c
-}, random_oper:function() {
-  return cljs.core.rand_nth.call(null, cljs.core.PersistentVector.fromArray([rbn.or_oper, rbn.and_oper, rbn.xor_oper], !0))
-}, random_state:function() {
-  return cljs.core.rand_nth.call(null, cljs.core.PersistentVector.fromArray([!0, !1], !0))
-}, potential_connections:function(a, b, c) {
+}};
+rbn.rules = cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([rbn.or_oper, rbn.and_oper, rbn.xor_oper], !0), cljs.core.PersistentVector.fromArray([rbn.or_oper, rbn.and_oper], !0)], !0);
+rbn.random_oper = function(a) {
+  return cljs.core.rand_nth.call(null, cljs.core.nth.call(null, rbn.rules, a))
+};
+rbn.random_state = function() {
+  var a = null, b = function() {
+    return cljs.core.rand_nth.call(null, cljs.core.PersistentVector.fromArray([!0, !1], !0))
+  }, c = function(a) {
+    return(cljs.core.rand_int.call(null, 100) + 1) / 100 <= a
+  }, a = function(a) {
+    switch(arguments.length) {
+      case 0:
+        return b.call(this);
+      case 1:
+        return c.call(this, a)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$0 = b;
+  a.cljs$lang$arity$1 = c;
+  return a
+}();
+rbn.potential_connections = function(a, b, c) {
   b = cljs.core.shuffle.call(null, cljs.core.filter.call(null, function(a) {
     return cljs.core.not_EQ_.call(null, c, a)
   }, cljs.core.range.call(null, b)));
   return cljs.core.take.call(null, a, b)
-}, make_network:function(a) {
-  var b = a * a;
+};
+rbn.make_network = function(a, b, c) {
+  var d = a * a;
   return cljs.core.ObjMap.fromObject(["\ufdd0'generation", "\ufdd0'dim", "\ufdd0'cells"], {"\ufdd0'generation":1, "\ufdd0'dim":a, "\ufdd0'cells":cljs.core.map.call(null, function(a) {
-    return cljs.core.ObjMap.fromObject(["\ufdd0'index", "\ufdd0'state", "\ufdd0'connections", "\ufdd0'oper"], {"\ufdd0'index":a, "\ufdd0'state":rbn.random_state.call(null), "\ufdd0'connections":rbn.potential_connections.call(null, 2, b, a), "\ufdd0'oper":rbn.random_oper.call(null)})
-  }, cljs.core.range.call(null, b))})
-}, next_cell_state:function(a, b) {
+    return cljs.core.ObjMap.fromObject(["\ufdd0'index", "\ufdd0'state", "\ufdd0'connections", "\ufdd0'oper"], {"\ufdd0'index":a, "\ufdd0'state":rbn.random_state.call(null, b), "\ufdd0'connections":rbn.potential_connections.call(null, 2, d, a), "\ufdd0'oper":rbn.random_oper.call(null, c)})
+  }, cljs.core.range.call(null, d))})
+};
+rbn.next_cell_state = function(a, b) {
   var c = cljs.core.map.call(null, function(a) {
     return cljs.core.nth.call(null, b, a)
   }, (new cljs.core.Keyword("\ufdd0'connections")).call(null, a)), c = cljs.core.map.call(null, "\ufdd0'state", c), c = cljs.core.apply.call(null, (new cljs.core.Keyword("\ufdd0'oper")).call(null, a), c);
   return cljs.core.assoc.call(null, a, "\ufdd0'state", c)
-}, evolve_network:function(a) {
+};
+rbn.evolve_network = function(a) {
   var a = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, b = cljs.core._lookup.call(null, a, "\ufdd0'cells", null), a = cljs.core._lookup.call(null, a, "\ufdd0'generation", null);
   return cljs.core.ObjMap.fromObject(["\ufdd0'generation", "\ufdd0'cells"], {"\ufdd0'generation":a + 1, "\ufdd0'cells":cljs.core.map.call(null, function(a) {
     return rbn.next_cell_state.call(null, a, b)
   }, b)})
-}};
+};
+rbn.network_generation = function(a) {
+  return(new cljs.core.Keyword("\ufdd0'generation")).call(null, a)
+};
 var graph_drawing = {cell_x:function(a, b) {
   return cljs.core.mod.call(null, b, a)
 }, cell_y:function(a, b) {
@@ -12799,7 +12824,7 @@ var graph_drawing = {cell_x:function(a, b) {
   }, (new cljs.core.Keyword("\ufdd0'cells")).call(null, b)))})
 }};
 graph_drawing.oper_color = cljs.core.PersistentArrayMap.fromArrays([rbn.and_oper, rbn.or_oper, rbn.xor_oper], ["#FF0000", "#00FF00", "#0000FF"]);
-graph_drawing.oper_color_mono = cljs.core.PersistentArrayMap.fromArrays([rbn.and_oper, rbn.or_oper, rbn.xor_oper], ["#666666", "#888888", "#AAAAAA"]);
+graph_drawing.oper_color_mono = cljs.core.PersistentArrayMap.fromArrays([rbn.and_oper, rbn.or_oper, rbn.xor_oper], ["#666666", "#777777", "#888888"]);
 graph_drawing.update_network_representation = function(a, b) {
   var c = (new cljs.core.Keyword("\ufdd0'cells")).call(null, a);
   return cljs.core.doall.call(null, function e(a) {
